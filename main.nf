@@ -17,7 +17,9 @@ workflow {
     }
 
     SPADES(
-	reads_ch.map{meta, illumina -> tuple(meta, illumina, [], [])}
+	reads_ch.map{meta, illumina -> tuple(meta, illumina, [], [])},
+	reads_ch.map{_meta, _illumina -> []},
+	reads_ch.map{_meta, _illumina -> []}
     )
     SPADES.out.contigs
     .map { meta, contigs -> "${meta.id},spades/${contigs.fileName}" }
