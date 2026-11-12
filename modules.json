@@ -5,6 +5,11 @@
     "https://github.com/nf-core/modules.git": {
       "modules": {
         "nf-core": {
+          "kraken2/kraken2": {
+            "branch": "master",
+            "git_sha": "1b52056300c8c4758970226e57979dbc1903ee95",
+            "installed_by": ["modules"]
+          },
           "spades": {
             "branch": "master",
             "git_sha": "7b3452a23773f687ededb4befd037920e5a51341",
