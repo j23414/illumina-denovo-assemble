@@ -15,4 +15,15 @@ workflow {
     } else {
         error "Please specify either --samplesheet samplesheet.csv or --reads 'data/*_{R1,R2}.fastq.gz'"
     }
+
+    SPADES(
+	reads_ch.map{meta, illumina -> tuple(meta, illumina, [], [])}
+    )
+    SPADES.out.contigs
+    .map { meta, contigs -> "${meta.id},spades/${contigs.fileName}" }
+    .collectFile(
+      name: "${params.outdir}/processed_samplesheet.csv",
+      seed: "sample,contigs",
+      newLine: true,
+    )
 }
