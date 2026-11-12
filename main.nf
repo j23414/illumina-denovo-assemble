@@ -1,5 +1,6 @@
 include { SPADES } from './modules/nf-core/spades/main'
-
+include { KRAKEN2_KRAKEN2 } from './modules/nf-core/kraken2/kraken2/main'
+ 
 workflow {
     main:
     // Load illumina reads
@@ -28,4 +29,27 @@ workflow {
       seed: "sample,contigs",
       newLine: true,
     )
+
+    if(params.kraken_db){
+	db_ch = channel.fromPath(params.kraken_db, checkIfExists: true)
+
+	kraken_input_ch = SPADES.out.contigs
+          .combine(db_ch)
+	  .map { meta, contigs, db -> tuple( meta + [ single_end: true ], contigs, db) }
+
+	// TODO: .multiMap will be legacy code as we move toward static typing, replace this later
+	kraken_input_ch = kraken_input_ch.multiMap { meta, contigs, db ->
+	  reads: tuple(meta, contigs)
+	  db: db
+	  save_output_fastqs: false
+	  save_reads_assignment: true
+	  }
+
+	KRAKEN2_KRAKEN2(
+	  kraken_input_ch.reads,
+	  kraken_input_ch.db,
+	  kraken_input_ch.save_output_fastqs,
+	  kraken_input_ch.save_reads_assignment
+	)
+    }
 }
