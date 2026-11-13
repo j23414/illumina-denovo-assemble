@@ -14,6 +14,16 @@
             "branch": "master",
             "git_sha": "7b3452a23773f687ededb4befd037920e5a51341",
             "installed_by": ["modules"]
+          },
+          "sylph/profile": {
+            "branch": "master",
+            "git_sha": "574ad1868a466e73d0f5ef8c139a260fbf2d8b9c",
+            "installed_by": ["modules"]
+          },
+          "sylph/sketch": {
+            "branch": "master",
+            "git_sha": "7b3452a23773f687ededb4befd037920e5a51341",
+            "installed_by": ["modules"]
           }
         }
       }
